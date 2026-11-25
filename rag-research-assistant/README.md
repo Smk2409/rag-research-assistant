@@ -184,5 +184,6 @@ OpenSearch Serverless / Aurora pgvector / Bedrock Knowledge Bases · cross-encod
 ## 16. Documentation Index
 `docs/PROJECT_REPORT.md` (full academic report) · `docs/VIVA_QA.md` (50+ viva questions) · `docs/DEMO_SCRIPT.md` (live demo flow & sample questions).
 
-##Off Campus code
-6GJZES
+## GrowthX Off Campus Challenge
+
+Off Campus Code: 6GJZES
