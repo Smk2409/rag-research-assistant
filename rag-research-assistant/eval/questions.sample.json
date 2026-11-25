@@ -1,0 +1,5 @@
+[
+  {"question": "What is the main objective of the document?", "expected_keywords": ["objective", "goal"]},
+  {"question": "Define the key term introduced in the first chapter.", "expected_keywords": ["define", "is a"]},
+  {"question": "What is the capital of Mars?", "expect_not_found": true}
+]

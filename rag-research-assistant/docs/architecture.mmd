@@ -1,0 +1,25 @@
+flowchart TB
+  U[Student Browser] -->|HTTPS| CF[CloudFront + private S3 frontend]
+  U -->|sign-up / sign-in| COG[Amazon Cognito]
+  U -->|JWT| APIGW[API Gateway HTTP API<br/>JWT authorizer + throttling]
+  APIGW --> DOC[Lambda: documents]
+  APIGW --> ASK[Lambda: ask]
+  APIGW --> WS[Lambda: workspace<br/>chats / feedback / stats]
+  APIGW --> STUDY[Lambda: study API]
+  DOC -->|presigned POST / GET| S3[(S3 documents<br/>uploads/ + vectors/)]
+  U -->|direct upload| S3
+  S3 -->|ObjectCreated| PROC[Lambda: process-document]
+  PROC -->|scanned PDF| TX[Amazon Textract OCR]
+  PROC -->|embeddings| BR[Amazon Bedrock<br/>Titan V2 + Claude]
+  PROC --> S3
+  PROC --> DDB[(DynamoDB documents)]
+  ASK --> BR
+  ASK --> S3
+  ASK --> ACT[(DynamoDB activity<br/>single-table)]
+  STUDY -->|async invoke| WORK[Lambda: study-worker]
+  WORK --> BR
+  WORK --> S3
+  WORK --> ACT
+  WS --> ACT
+  CW[CloudWatch dashboard + alarms + X-Ray] -.-> ASK
+  CW -.-> PROC

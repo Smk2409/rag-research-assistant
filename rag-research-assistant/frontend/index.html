@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Research Assistant</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ============ AUTH ============ -->
+<div id="auth" class="card auth">
+  <h1>📚 AI Research Assistant</h1>
+  <p class="hint">Upload your study material. Ask questions. Get answers grounded in <b>your</b> documents.</p>
+  <h2 id="authTitle">Sign in</h2>
+  <input id="email" type="email" placeholder="Email" autocomplete="username">
+  <input id="password" type="password" placeholder="Password" autocomplete="current-password">
+  <input id="code" type="text" placeholder="Verification code from your email" class="hidden">
+  <div class="error" id="authError"></div>
+  <button id="authBtn" class="full">Sign in</button>
+  <p class="hint"><span class="link" id="toggleAuth">No account? Sign up</span> · <span class="link" id="forgot">Forgot password?</span></p>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app" class="hidden">
+  <header>
+    <button class="ghost icon" id="menuBtn" title="Menu">☰</button>
+    <h1>📚 AI Research Assistant</h1>
+    <nav>
+      <button class="tab active" data-tab="chat">💬 Chat</button>
+      <button class="tab" data-tab="study">🎓 Study Studio</button>
+      <button class="tab" data-tab="dash">📊 Dashboard</button>
+    </nav>
+    <div class="right"><span class="hint" id="who"></span>
+      <button class="ghost icon" id="theme" title="Toggle theme">🌓</button>
+      <button class="ghost" id="logout">Sign out</button></div>
+  </header>
+
+  <div class="layout">
+    <aside id="sidebar">
+      <section class="card">
+        <h2>Documents</h2>
+        <div id="drop" class="drop">Drop PDF / TXT / MD here<br><span class="hint">or click to browse (max 20 MB)</span></div>
+        <input id="file" type="file" accept=".pdf,.txt,.md,application/pdf,text/plain,text/markdown" multiple class="hidden">
+        <div class="progress hidden" id="progress"><div id="bar"></div></div>
+        <div class="error" id="uploadMsg"></div>
+        <div id="docs"><p class="hint">No documents yet.</p></div>
+        <p class="hint">Tick documents to limit questions to them; none ticked = search all.</p>
+      </section>
+      <section class="card">
+        <div class="row"><h2>Chats</h2><button class="ghost small" id="newChat">+ New</button></div>
+        <div id="chats"></div>
+      </section>
+    </aside>
+
+    <main>
+      <!-- CHAT -->
+      <section id="tab-chat" class="card tabpane">
+        <div class="row toolbar">
+          <label class="hint">Answer style
+            <select id="style">
+              <option value="balanced">Balanced</option><option value="concise">Concise</option>
+              <option value="detailed">Detailed</option><option value="eli5">Explain simply</option>
+              <option value="exam">Exam notes</option>
+            </select></label>
+          <span class="spacer"></span>
+          <button class="ghost small" id="exportChat">⬇ Export chat</button>
+        </div>
+        <div id="chat">
+          <div class="msg bot"><div class="body">Upload a document, wait for <b>READY</b>, then ask me anything. Answers come only from your files, with <b>clickable page citations</b>. Follow-up questions work too.</div></div>
+        </div>
+        <div id="chips" class="chips"></div>
+        <div class="ask">
+          <button class="ghost icon" id="mic" title="Voice input">🎤</button>
+          <input id="q" type="text" placeholder="Ask a question about your documents…" maxlength="1000">
+          <button id="send">Ask</button>
+        </div>
+      </section>
+
+      <!-- STUDY -->
+      <section id="tab-study" class="card tabpane hidden">
+        <h2>Study Studio</h2>
+        <div class="row wrap">
+          <select id="studyDoc"></select>
+          <select id="studyMode">
+            <option value="summary">📝 Structured summary</option>
+            <option value="flashcards">🃏 Flashcards</option>
+            <option value="quiz">❓ Practice quiz</option>
+            <option value="keyterms">🔑 Key terms</option>
+          </select>
+          <label class="hint">Items <input id="studyCount" type="number" min="3" max="25" value="10" style="width:70px"></label>
+          <button id="studyGo">Generate</button>
+        </div>
+        <div id="studyStatus" class="hint"></div>
+        <div id="studyOut"></div>
+      </section>
+
+      <!-- DASHBOARD -->
+      <section id="tab-dash" class="card tabpane hidden">
+        <h2>Your workspace</h2>
+        <div id="stats" class="stats"></div>
+        <h3>Document library</h3>
+        <div id="libTable"></div>
+      </section>
+    </main>
+  </div>
+</div>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

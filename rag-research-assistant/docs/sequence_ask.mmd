@@ -1,0 +1,18 @@
+sequenceDiagram
+  participant B as Browser
+  participant A as API Gateway
+  participant L as Ask Lambda
+  participant D as DynamoDB
+  participant S as S3 (vectors)
+  participant M as Bedrock
+  B->>A: POST /ask (JWT)
+  A->>A: verify JWT (Cognito)
+  A->>L: invoke (userId from claims)
+  L->>D: load last turns (chat memory)
+  L->>M: rewrite follow-up to standalone query
+  L->>M: embed query (Titan V2)
+  L->>S: load user's vector files (cached when warm)
+  L->>L: hybrid search = vector + BM25 -> RRF -> MMR
+  L->>M: generate grounded answer (Claude Converse)
+  L->>D: save messages + session
+  L-->>B: answer + citations + confidence
